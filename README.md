@@ -14,7 +14,7 @@ formalization of the whole argument from two named hypotheses.
 
 Overholt [Ov] showed that the abc conjecture implies finitely many solutions. The explicit
 conditional statement is also known. Laishram and Shorey [LS, Theorem 1, eq. (2)] show
-that Baker's explicit abc conjecture [Ba; LS, Conjecture 1.2] implies $c < \operatorname{rad}(abc)^{7/4}$
+that Baker's explicit abc conjecture [Ba; LS, Conjecture 1.2] implies $c < \mathrm{rad}(abc)^{7/4}$
 for every coprime triple $a + b = c$. Browkin [Br, Theorem 6.1] shows that his hypothesis
 $abc(1.8)$ implies that $n! + 1 = m^2$ has no solution with $n > 7$, using the search of
 Berndt and Galway [BG] up to $10^9$ for the finite part. Since $7/4 < 1.8$, the two results
@@ -34,29 +34,29 @@ What this repository adds:
 Let $\theta(n) = \sum_{p \le n} \log p$ and write $\omega(x)$ for the number of distinct prime
 factors of $x$.
 
-**Hypothesis $\mathrm{LS}_{34/71}$.** For pairwise coprime positive integers $a + b = c$ with
+**Hypothesis (H1)** (`LS_abc_34_71` in Lean). For pairwise coprime positive integers $a + b = c$ with
 $\omega(abc) \ge 175$,
 
-$$c < \kappa \operatorname{rad}(abc)^{105/71}, \qquad \kappa = \frac{6}{5\sqrt{2\pi \cdot 175}}.$$
+$$c < \kappa \mathrm{rad}(abc)^{105/71}, \qquad \kappa = \frac{6}{5\sqrt{2\pi \cdot 175}}.$$
 
 This is row $\varepsilon = 34/71$, $\omega_\varepsilon = 175$ of [LS, Theorem 1], which holds under
-Baker's explicit abc conjecture. Their theorem requires $\operatorname{rad}(abc) \ge N_\varepsilon$,
+Baker's explicit abc conjecture. Their theorem requires $\mathrm{rad}(abc) \ge N_\varepsilon$,
 the product of the first 175 primes, and $\omega(abc) \ge 175$ implies it.
 
-**Hypothesis Dusart.** $\prod_{p \le n} p \le 2.7186^n$ for all $n$. This is a weakening of
+**Hypothesis (H2)** (`Dusart` in Lean). $\prod_{p \le n} p \le 2.7186^n$ for all $n$. This is a weakening of
 $\theta(x) < 1.000081\,x$ [Du; LS, Lemma 2.1(iv)], since $e^{1.000081} < 2.7186$.
 
-**Theorem 1.** Under $\mathrm{LS}_{34/71}$ and Dusart, $n! + 1 = m^2$ implies $n \in \{4, 5, 7\}$.
+**Theorem 1.** Under (H1) and (H2), $n! + 1 = m^2$ implies $n \in \{4, 5, 7\}$.
 
-*Sketch for $n \ge 1039$.* Apply $\mathrm{LS}_{34/71}$ to the triple $(1, n!, m^2)$. Every prime
+*Sketch for $n \ge 1039$.* Apply (H1) to the triple $(1, n!, m^2)$. Every prime
 $p \le 1039 = p_{175}$ divides $n!$, so $\omega \ge 175$. Since
-$\operatorname{rad}(n!\,m^2) \le e^{\theta(n)} m$ and $\kappa \le 1$,
+$\mathrm{rad}(n!\,m^2) \le e^{\theta(n)} m$ and $\kappa \le 1$,
 
 $$m^2 < \bigl(e^{\theta(n)} m\bigr)^{105/71}
 \quad\Longrightarrow\quad
 (n!)^{37} < m^{74} < e^{210\,\theta(n)}.$$
 
-With $n! \ge (n/e)^n$ and Dusart this needs $(n/e)^{37} < 2.7186^{210}$, which fails once
+With $n! \ge (n/e)^n$ and (H2) this needs $(n/e)^{37} < 2.7186^{210}$, which fails once
 $n/e \ge 382.2$, that is for every $n \ge 1039$.
 
 The cutoff is set by the prime condition. With Robbins' bound [Ro] and
@@ -101,20 +101,20 @@ No `sorry` and no `native_decide`. Every theorem depends only on `propext`,
 `leanprover/lean4:v4.33.1`, Mathlib `v4.33.1`.
 
 Mathlib proves only $\prod_{p \le n} p \le 4^n$. With that bound the size argument needs
-$n \gtrsim 7100$, so Dusart is kept as a hypothesis to stay at the cutoff 1038.
+$n \gtrsim 7100$, so (H2) is kept as a hypothesis to stay at the cutoff 1038.
 
 ## A second conditional route (remark)
 
 Zhou [Zh, Theorem A1(i)] states: for coprime $a + b = c$ with $\log|abc| \ge 700$,
 
-$$\log|abc| \le 3 \log \operatorname{rad}(abc) + 8 \sqrt{\log|abc| \cdot \log\log|abc|}.$$
+$$\log|abc| \le 3 \log \mathrm{rad}(abc) + 8 \sqrt{\log|abc| \cdot \log\log|abc|}.$$
 
 The proof relies on inter-universal Teichmüller theory, whose correctness is disputed [SS],
 and the preprint has not been refereed. We record its consequence for Brocard only as a
 conditional remark.
 
 For a solution with $n \ge 4$, the triple $\bigl(\tfrac{m-1}{2}, 1, \tfrac{m+1}{2}\bigr)$ is
-coprime with $abc = n!/4$ and $\operatorname{rad}(abc) = \operatorname{rad}(n!)$, so $m$ drops
+coprime with $abc = n!/4$ and $\mathrm{rad}(abc) = \mathrm{rad}(n!)$, so $m$ drops
 out and $n$ is excluded when
 
 $$L > 3\,\theta(n) + 8\sqrt{L \log L}, \qquad L = \log(n!/4) \ge 700.$$
@@ -126,7 +126,7 @@ the tail by a derivative bound:
 * with only $\theta(n) \le n \log 4$ (in Mathlib), every $n \ge 1039$ is excluded.
 
 Together with the certificate, Theorem A1(i) of [Zh] therefore implies Brocard's conjecture,
-with no Dusart hypothesis. This route is not yet formalized. The two cutoffs at 1039 coincide
+without (H2). This route is not yet formalized. The two cutoffs at 1039 coincide
 by accident: here the bound is set by the term $8\sqrt{L \log L}$, in Theorem 1 by the prime
 $p_{175}$.
 
@@ -162,14 +162,14 @@ lake env lean Brocard/Axioms.lean
 
 * [Ba] A. Baker, *Experiments on the abc-conjecture*, Publ. Math. Debrecen 65 (2004), 253-260.
 * [BG] B. C. Berndt and W. F. Galway, *On the Brocard-Ramanujan Diophantine equation
-  $n! + 1 = m^2$*, Ramanujan J. 4 (2000), 41-42.
+  n! + 1 = m²*, Ramanujan J. 4 (2000), 41-42.
 * [Br] J. Browkin, *A weak effective abc-conjecture*, Funct. Approx. Comment. Math. 39 (2008),
   103-111.
-* [Du] P. Dusart, *Inégalités explicites pour $\psi(X)$, $\theta(X)$, $\pi(X)$ et les nombres
+* [Du] P. Dusart, *Inégalités explicites pour ψ(X), θ(X), π(X) et les nombres
   premiers*, C. R. Math. Rep. Acad. Sci. Canada 21 (1999), 53-59.
 * [LS] S. Laishram and T. N. Shorey, *Baker's explicit abc-conjecture and applications*,
   Acta Arith. 155 (2012), 419-429.
-* [Ov] M. Overholt, *The Diophantine equation $n! + 1 = m^2$*, Bull. London Math. Soc. 25
+* [Ov] M. Overholt, *The Diophantine equation n! + 1 = m²*, Bull. London Math. Soc. 25
   (1993), 104.
 * [Ro] H. Robbins, *A remark on Stirling's formula*, Amer. Math. Monthly 62 (1955), 26-29.
 * [SS] P. Scholze and J. Stix, *Why abc is still a conjecture*, manuscript, 2018.

@@ -1,0 +1,7 @@
+{
+  "title": "Brocard's equation under explicit abc: cutoff 1038, witness certificate and Lean proof",
+  "upload_type": "software",
+  "creators": [{"name": "Lakovskiy, Roman"}],
+  "description": "Conditional proof that n! + 1 = m^2 has only the solutions n = 4, 5, 7, assuming Baker's explicit abc conjecture in the form of Laishram and Shorey (2012, Theorem 1, row 34/71) and Dusart's bound on theta. The cutoff for the finite part is n <= 1038. Contains the witness certificate for 8 <= n <= 1038, a Lean 4 formalization of the full argument from two stated hypotheses, the scripts that regenerate every computed file, and a remark on the consequence of Zhou (2025, arXiv:2503.14510, Theorem A1(i)).",
+  "keywords": ["Brocard's problem", "abc conjecture", "Diophantine equations", "factorials", "Lean 4", "formal verification"]
+}

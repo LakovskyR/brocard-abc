@@ -1,0 +1,31 @@
+{
+  "certificate_sha256": "d4d48938eb6b6ffa8eae345c3a03149d86b695b21843206ee9bf8adc17dad4dc",
+  "gap_q_minus_n": {
+    "max": 88,
+    "max_at_n": [
+      499
+    ],
+    "median_lower": 9,
+    "min": 2,
+    "p90_lower": 23,
+    "p99_lower": 43
+  },
+  "implementations": [
+    "CPython+SymPy primes+Euler criterion",
+    "Numba-native+sieve+binary Jacobi"
+  ],
+  "known_solution_records": 3,
+  "range": [
+    1,
+    1038
+  ],
+  "records": 1038,
+  "versions": {
+    "numba": "0.65.1",
+    "numpy": "2.4.4",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+    "sympy": "1.14.0"
+  },
+  "witness_records": 1035
+}

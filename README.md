@@ -96,7 +96,7 @@ theorem Brocard.brocard_of_LS (hLS : LS_abc_34_71) (hD : Dusart) :
 | `Brocard/AbcConditional.lean` | the hypotheses, the size argument, `brocard_of_LS` |
 | `Brocard/Axioms.lean` | `#print axioms` for the main theorems |
 
-No `sorry` and no `native_decide`. Every theorem depends only on `propext`,
+Every theorem depends only on `propext`,
 `Classical.choice` and `Quot.sound` (`outputs/lean_axioms.txt`). Toolchain
 `leanprover/lean4:v4.33.1`, Mathlib `v4.33.1`.
 

@@ -79,13 +79,16 @@ criterion. The largest gap is $q - n = 88$, at $n = 499$. The file format is in
 `code/verify_certificates.py` checks each record again: primality of $q$ by trial division,
 the residue and the minimality of $q$.
 
-In Lean, `Brocard.check_sound` proves that a passing check excludes a square, and the 1031
-records are evaluated by `decide +kernel` in 21 chunk files.
+In Lean, `Brocard.check_sound` proves that a passing check excludes a square, and the records
+are evaluated by `decide +kernel` in chunk files of 50.
 
 ## Lean formalization
 
 ```lean
 theorem Brocard.brocard_of_LS (hLS : LS_abc_34_71) (hD : Dusart) :
+    ∀ n m : ℕ, n ! + 1 = m ^ 2 → n = 4 ∨ n = 5 ∨ n = 7
+
+theorem Brocard.brocard_of_Zhou (hZ : Zhou_A1i) :
     ∀ n m : ℕ, n ! + 1 = m ^ 2 → n = 4 ∨ n = 5 ∨ n = 7
 ```
 
@@ -93,9 +96,12 @@ theorem Brocard.brocard_of_LS (hLS : LS_abc_34_71) (hD : Dusart) :
 |------|---------|
 | `Brocard/Kernel.lean` | $n \le 7$ by hand, parity, $2$-adic and block lemmas, Pell form |
 | `Brocard/Witness.lean` | the certificate checker and its soundness proof |
-| `Brocard/WitnessData/` | the 1031 witness primes, 50 per file |
+| `Brocard/WitnessData/` | witness primes, 50 per file: chunks 0 to 20 for $8 \le n \le 1038$, 21 to 41 for $1039 \le n \le 2047$ |
 | `Brocard/WitnessRange.lean` | `no_solution_8_to_1038` |
+| `Brocard/WitnessRangeZhou.lean` | `no_solution_8_to_2047` |
+| `Brocard/Radical.lean` | the radical and $\mathrm{rad}(n!) = \prod_{p \le n} p$ |
 | `Brocard/AbcConditional.lean` | the hypotheses, the size argument, `brocard_of_LS` |
+| `Brocard/ZhouConditional.lean` | `Zhou_A1i`, the reduction, the tail $n \ge 2048$, `brocard_of_Zhou` |
 | `Brocard/Axioms.lean` | `#print axioms` for the main theorems |
 
 Every theorem depends only on `propext`,
@@ -128,9 +134,15 @@ the tail by a derivative bound:
 * with only $\theta(n) \le n \log 4$ (in Mathlib), every $n \ge 1039$ is excluded.
 
 Together with the certificate, Theorem A1(i) of [Zh] therefore implies Brocard's conjecture,
-without (H2). This route is not yet formalized. The two cutoffs at 1039 coincide
+without (H2). The two cutoffs at 1039 coincide
 by accident: here the bound is set by the term $8\sqrt{L \log L}$, in Theorem 1 by the prime
 $p_{175}$.
+
+In Lean, `brocard_of_Zhou` proves this from the single hypothesis `Zhou_A1i`, Theorem A1(i)
+restricted to positive integers. The formal tail avoids calculus: from $n! \ge (n/e)^n$,
+$n! \le n^n$ and $\prod_{p \le n} p \le 4^n$ one gets $\log L \le 2\log n$ and
+$8\sqrt{L \log L} \le \tfrac14 n \log n$ for $n \ge 2048$, which leaves a margin of at least
+$n/20 - 7/5$. The certificate `certificates/witnesses_1_2047.jsonl` covers $8 \le n \le 2047$.
 
 ## Reproducing
 
@@ -152,7 +164,7 @@ lake env lean Brocard/Axioms.lean
 
 | Path | Content |
 |------|---------|
-| `certificates/` | the witness file for $1 \le n \le 1038$, its format and hashes |
+| `certificates/` | the witness files for $n \le 1038$ and $n \le 2047$, their format and hashes |
 | `code/witness_certificates.py` | generates the certificate (SymPy and Numba, cross-checked) |
 | `code/verify_certificates.py` | verifier: primality, residue, minimality |
 | `code/abc_bound_check.py` | all rows of [LS, Theorem 1] in interval arithmetic |

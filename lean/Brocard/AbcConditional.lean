@@ -6,6 +6,7 @@ import Mathlib.Data.Nat.PrimeFin
 import Mathlib.Tactic
 import Brocard.Kernel
 import Brocard.WitnessRange
+import Brocard.Radical
 
 /-!
 # Brocard, conditional part: explicit abc ⇒ Brocard
@@ -32,9 +33,6 @@ Ingredients: Kernel.lean (n ≤ 7), WitnessRange.lean (8 ≤ n ≤ 1038), and th
 open Nat Finset
 
 namespace Brocard
-
-/-- Radical: the product of the distinct prime factors. -/
-def rad (x : ℕ) : ℕ := ∏ p ∈ x.primeFactors, p
 
 /-- Laishram-Shorey 2012, Theorem 1, row ε = 34/71, as a consequence of Baker's explicit abc:
 for pairwise coprime positive `a + b = c` with `ω(abc) ≥ 175`,
@@ -74,20 +72,6 @@ theorem card_primes_lt_1040 : ((Finset.range 1040).filter Nat.Prime).card = 175 
   rw [Finset.filter_congr (q := fun p => isPrimeTD p = true)
     (fun p _ => ⟨isPrimeTD_of_prime, prime_of_isPrimeTD⟩)]
   decide +kernel
-
-theorem primeFactors_factorial (n : ℕ) :
-    (n !).primeFactors = (Finset.range (n + 1)).filter Nat.Prime := by
-  ext p
-  simp only [Nat.mem_primeFactors, Finset.mem_filter, Finset.mem_range]
-  constructor
-  · rintro ⟨hp, hd, -⟩
-    exact ⟨by have := (Nat.Prime.dvd_factorial hp).mp hd; omega, hp⟩
-  · rintro ⟨hlt, hp⟩
-    exact ⟨hp, (Nat.Prime.dvd_factorial hp).mpr (by omega), Nat.factorial_ne_zero n⟩
-
-theorem rad_factorial (n : ℕ) : rad (n !) = primorial n := by
-  unfold rad primorial
-  rw [primeFactors_factorial]
 
 /-- `ω(n! · m²) ≥ 175` for `n ≥ 1039`. -/
 theorem omega_ge {n m : ℕ} (hn : 1039 ≤ n) (hm : m ≠ 0) :

@@ -6,9 +6,11 @@ cd "$(dirname "$0")"
 PY=${PYTHON:-python3}
 tmp=$(mktemp -d)
 
-$PY code/witness_certificates.py --limit 1038 --output "$tmp/w.jsonl" --stats "$tmp/w.stats.json" > /dev/null
-cmp "$tmp/w.jsonl" certificates/witnesses_1_1038.jsonl
-$PY code/verify_certificates.py certificates/witnesses_1_1038.jsonl
+for limit in 1038 2047; do
+    $PY code/witness_certificates.py --limit $limit --output "$tmp/w.jsonl" --stats "$tmp/w.stats.json" > /dev/null
+    cmp "$tmp/w.jsonl" certificates/witnesses_1_$limit.jsonl
+    $PY code/verify_certificates.py certificates/witnesses_1_$limit.jsonl
+done
 $PY code/abc_bound_check.py
 $PY code/zhou_route_check.py > /dev/null
 $PY code/zhou_route_check.py --verify-output

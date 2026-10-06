@@ -1,5 +1,7 @@
 # Brocard's equation under explicit abc
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23175570.svg)](https://doi.org/10.5281/zenodo.23175570)
+
 Brocard's problem asks for all solutions of
 
 $$n! + 1 = m^2, \qquad n, m \in \mathbb{N}.$$
